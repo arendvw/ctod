@@ -22,7 +22,7 @@ RUN apt-get update \
     && apt-get upgrade -y \
     && pip install "poetry>=2,<3" \
     && poetry config virtualenvs.create false \
-    && poetry install --only main \
+    && poetry install --only main --no-root \
     && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5000
