@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.13-slim
 
 WORKDIR /app
 
@@ -17,13 +17,12 @@ COPY ./ctod /app/ctod/
 COPY ./scripts /app/scripts/
 COPY start_server.py /app/
 
+# All native dependencies ship cp313 wheels, so no compiler is needed.
 RUN apt-get update \
-    && apt-get install -y gcc \
-    && pip install poetry \
+    && apt-get upgrade -y \
+    && pip install "poetry>=2,<3" \
     && poetry config virtualenvs.create false \
-    && poetry install --no-dev \
-    && apt-get remove -y gcc \
-    && apt-get autoremove -y \
+    && poetry install --only main \
     && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5000
