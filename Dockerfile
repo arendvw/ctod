@@ -21,6 +21,7 @@ COPY start_server.py /app/
 # All native dependencies ship cp313 wheels, so no compiler is needed.
 RUN apt-get update \
     && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends libexpat1 \
     && pip install "poetry>=2,<3" \
     && poetry config virtualenvs.create false \
     && poetry install --only main --no-root \
