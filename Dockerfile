@@ -15,6 +15,7 @@ ENV VSI_CACHE=TRUE
 COPY pyproject.toml poetry.lock /app/
 COPY ./ctod /app/ctod/
 COPY ./scripts /app/scripts/
+COPY ./config /app/config/
 COPY start_server.py /app/
 
 # All native dependencies ship cp313 wheels, so no compiler is needed.
