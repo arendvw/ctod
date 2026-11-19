@@ -92,7 +92,7 @@ async def index(request: Request):
 
     status = get_server_status(globals["start_time"])
 
-    return templates.TemplateResponse("index.html", {"request": request, "links": links, "dynamic": dynamic, "status": status})
+    return templates.TemplateResponse(request, "index.html", {"links": links, "dynamic": dynamic, "status": status})
 
 
 @app.get(

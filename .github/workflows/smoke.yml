@@ -24,5 +24,11 @@ jobs:
           docker inspect ctod --format '{{.State.Status}} exit={{.State.ExitCode}} restarts={{.RestartCount}}'
           echo "=== logs ==="
           docker logs ctod 2>&1 | tail -80
-          echo "=== layer.json probe ==="
-          curl -s -m 10 -o /dev/null -w "%{http_code}\n" "http://localhost:5000/" || true
+          echo "=== endpoint probes ==="
+          fail=0
+          for path in "/" "/status" "/tiles/demo/layer.json" "/tiles/demo/13/0/0.terrain"; do
+            code=$(curl -s -m 30 -o /dev/null -w "%{http_code}" "http://localhost:5000$path")
+            echo "$path -> $code"
+            case "$code" in 2*|404) ;; *) fail=1;; esac
+          done
+          exit $fail
